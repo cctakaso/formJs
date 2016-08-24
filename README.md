@@ -8,8 +8,8 @@ simple input form manager for javascript
 <head>
 <meta charset="utf-8" />
 <title>form.js TEST</title>
-<script src="/git/js/jquery-1.11.3.min.js"></script>
-<script src="/git/js/form.js"></script>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/form.js"></script>
 </head>
 <body>
 
