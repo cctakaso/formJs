@@ -221,7 +221,7 @@ function isValid(val, key, value) {
 }
 
 function isUndefined(val) {
-  return (typeof val === "undefined") || (val == "undefined");
+  return (typeof val === "undefined") || (val == "undefined") || (val.toString() === "Invalid Date");
 }
 
 function isNullUndefined(val) {
