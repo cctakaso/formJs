@@ -1,13 +1,13 @@
-var FORM_MSG = {
+let FORM_MSG = {
   ERR_REQ:"This field is required.",
   ERR_TYPE:"Please enter a valid value.",
   ERR_RANGE:"Please enter a valid value range.",
 };
 function set_form(def_name, def_form, data, isReadOnly) {
-  for (var key in def_form) {
+  for (let key in def_form) {
     if (key=="ERROR_RULE")
       continue;
-    var ctr = get_ctr(def_name, key);
+    let ctr = get_ctr(def_name, key);
     if (!isEmpty(ctr)) {
       //if (!isEmpty(def_form[key]["ctr"]) && def_form[key]["ctr"]=="check") {
       if (!isEmpty(ctr[0]["nodeName"]) && (ctr[0].nodeName == "DIV" || ctr[0].nodeName == "SPAN")) {
@@ -32,15 +32,15 @@ function set_form(def_name, def_form, data, isReadOnly) {
 }
 
 function get_form(def_name, def_form) {
-  var data = new Object();
-  var ctr_error_fst = null;
-  var msg = null;
-  for (var key in def_form) {
-    var ishd = def_form[key]["hd"];
+  let data = new Object();
+  let ctr_error_fst = null;
+  let msg = null;
+  for (let key in def_form) {
+    let ishd = def_form[key]["hd"];
     if (isEmpty(ishd) || ishd!=true ) {
-      var ctr = get_ctr(def_name, key);
+      let ctr = get_ctr(def_name, key);
       if (isValidCtr(ctr)) {
-        var val = get_ctr_value(def_name, def_form, key);
+        let val = get_ctr_value(def_name, def_form, key);
         if (def_form["ERROR_RULE"].color) {
           ctr.css("background-color","");
         }
@@ -104,7 +104,7 @@ function get_form(def_name, def_form) {
   if (isValidCtr(ctr_error_fst)) {
     ctr_error_fst.focus();
     if (def_form["ERROR_RULE"].alert) {
-      var timer = setTimeout(function() {
+      let timer = setTimeout(function() {
         window.alert(msg);
       }, 200);
       return null;
@@ -114,18 +114,18 @@ function get_form(def_name, def_form) {
 }
 
 function get_ctr_value(def_name, def_form, key) {
-  var val = null;
-  var req = def_form[key].req;
-  var ctr = get_ctr(def_name, key);
+  let val = null;
+  let req = def_form[key].req;
+  let ctr = get_ctr(def_name, key);
   if (isValidCtr(ctr)) {
     if (ctr.is('select')) {
-      var tmp = def_name+" [name=\""+key+"\"] option:selected";
+      let tmp = def_name+" [name=\""+key+"\"] option:selected";
       ctr = $(tmp);
       val = parseValue(def_form, ctr.val(), key);
     }else if (!isEmpty(ctr[0].type) && ctr[0].type=="checkbox") {
       val = parseValue(def_form, ctr.is(':checked') ? '1':'0', key);
     }else{
-      var val;
+      let val;
       if (!isEmpty(ctr[0].nodeName) && (ctr[0].nodeName == "DIV" || ctr[0].nodeName == "SPAN")) {
         if (ctr.hasClass('autoval')) {
           val = ctr.html();
@@ -135,7 +135,7 @@ function get_ctr_value(def_name, def_form, key) {
       }
     }
   }
-  
+
   return val;
 }
 
@@ -146,13 +146,13 @@ function parseValue(def_form, obj, key) {
     }
     //return obj;
   }
-  
-  var type = def_form[key].type;
-  var fmt = def_form[key].fmt;
 
-  
-  var radix=null;
-  var pref="";
+  let type = def_form[key].type;
+  let fmt = def_form[key].fmt;
+
+
+  let radix=null;
+  let pref="";
   switch (type) {
     case "int":
       radix = 10;
@@ -181,7 +181,7 @@ function parseValue(def_form, obj, key) {
 }
 
 function get_ctr(def_name, key) {
-  var tmp;
+  let tmp;
   tmp = def_name+" [name=\""+key+"\"]";
   return $(tmp);
 }
@@ -236,14 +236,14 @@ function formatDate(datestr, frformat, toformat) {
   if (isEmpty(datestr)){
     return '';
   }
-  var date;
-  var st = frformat.indexOf("YYYY");
-  var year, month, day;
+  let date;
+  let st = frformat.indexOf("YYYY");
+  let year, month, day;
   if (st>=0) {
     year = datestr.substr(st, 4);
   }else{
     st = frformat.indexOf("YY");
-    var today;
+    let today;
     if (st>=0) {
       year = datestr.substr(st, 2);
       today = new Date(year, 1, 1)
@@ -264,7 +264,7 @@ function formatDate(datestr, frformat, toformat) {
       month = "01";
     }
   }
-  
+
   st = frformat.indexOf("DD");
   if (st>=0) {
     day = datestr.substr(st, 2);
@@ -276,9 +276,9 @@ function formatDate(datestr, frformat, toformat) {
       day = "01";
     }
   }
-  
+
   try{
-   date = new Date(year+"/"+month+"/"+day);
+    date = new Date(year+"/"+month+"/"+day);
   }catch(e){}
   if (!isNaN(date)) {
     if (toformat)
@@ -298,9 +298,9 @@ function getFormatDate(date, toformat) {
   toformat = toformat.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
   toformat = toformat.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
   if (toformat.match(/S/g)) {
-    var milliSeconds = ('00' + date.getMilliseconds()).slice(-3);
-    var length = toformat.match(/S/g).length;
-    for (var i = 0; i < length; i++) toformat = toformat.replace(/S/, milliSeconds.substring(i, i + 1));
+    let milliSeconds = ('00' + date.getMilliseconds()).slice(-3);
+    let length = toformat.match(/S/g).length;
+    for (let i = 0; i < length; i++) toformat = toformat.replace(/S/, milliSeconds.substring(i, i + 1));
   }
   return toformat;
 }
@@ -309,5 +309,3 @@ function isBetweenDate(targetDate, startDate, endDate) {
   return (isEmpty(startDate) || startDate.getTime()<=targetDate.getTime())
         && (isEmpty(endDate) || targetDate.getTime()<=endDate.getTime());
 }
-
-
